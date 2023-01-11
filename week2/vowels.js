@@ -5,13 +5,15 @@ function hasVowel(word, num){
   }
   
   for (let i = 0; i <= num; i++) {
-    for (let j = 0; j <= vowels.length; j++) {
+    for (let j = 0; j <= vowels.length - 1; j++) {
       if (vowels[j] == word[i]) {
-        console.log(`${word[i]} at ${word.indexOf(word[i])}`);
-      }
+        console.log(`${vowels[j]} at ${word.indexOf(vowels[j])}`);        
+      }      
     }
   }
 }
 
 let phrase = prompt("Enter a word or phrase");
-hasVowel(phrase, 2);
+let num = prompt("how many letters to check?")
+hasVowel(phrase, num);
+
