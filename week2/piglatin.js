@@ -10,10 +10,10 @@ function isVowel(letter) {
   return vowel;
 }
 
-let word;
 let newWord;
-let translation = [];
 let piglatin;
+let translation = [];
+let word;
 
 let string = prompt("please enter word/phrase to be translated.");
 
