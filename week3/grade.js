@@ -25,7 +25,7 @@ lowest = grade[0];
 highest = grade[0];
 
 for (let i = 0; i < person.length; i++) {
-    person[i] = person[i].charAt(0).toUpperCase() + person[0].slice(1);
+    person[i] = person[i].charAt(0).toUpperCase() + person[i].slice(1);
     updated[i] = person[i] + " - " + grade[i];
     if (grade[i] < lowest) {
         lowest = grade[i];
@@ -35,6 +35,8 @@ for (let i = 0; i < person.length; i++) {
         highest = grade[i];
     }
 }
+
+updated.sort();
 
 totalStudents = students.length;
 average = sum/students.length;
