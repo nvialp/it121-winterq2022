@@ -9,14 +9,17 @@ var sum = 0;
 var totalStudents;
 var updated = [];
 
+//split grades into an array
 var students = grades.split(", ");
 
+//loop to split students array further into person and grade
 for (let i = 0; i < students.length; i++) {
     let temp = students[i].split("|");
     person[i] = temp[0];
     grade[i] = temp[1];
 }
 
+//turning grade array into integer array, and updating sum
 for (let i = 0; i < students.length; i++) {
     sum += parseInt(grade[i]);
 }
@@ -24,6 +27,7 @@ for (let i = 0; i < students.length; i++) {
 lowest = grade[0];
 highest = grade[0];
 
+//loop to get the person and first letter of name, return it capitalized and store in new array, check and update lowest grade
 for (let i = 0; i < person.length; i++) {
     person[i] = person[i].charAt(0).toUpperCase() + person[i].slice(1);
     updated[i] = person[i] + " - " + grade[i];
@@ -36,6 +40,7 @@ for (let i = 0; i < person.length; i++) {
     }
 }
 
+//added sort to alphabetize the names
 updated.sort();
 
 totalStudents = students.length;
