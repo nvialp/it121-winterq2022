@@ -66,11 +66,14 @@
               event.preventDefault();
               $("#message").html("all fields must be filled out.");
           }         
-          else if (!validatePassword(password)) {
+          else if(!validatePassword(password)) {
               event.preventDefault();
               $("#message").html("Password must contain at least 8 characters, 1 uppercase character, and 1 lower case character");
           } 
-          // prevent page reload
+          else {
+              event.preventDefault();
+              $("#message").html("all fields are valid.")
+          }// prevent page reload
         }
     
     </script>
