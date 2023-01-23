@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+  <link rel="stylesheet" href="../style.css" /> 
+</head>
+<body>
+
+    <h1>Functions & validation</h1>
+    
+    <form id="form1" action="#" onsubmit="return validateForm(this);">
+      first name: <input type="text" name="firstname"><br>
+      last name: <input type="text" name="lastname"><br>
+      password: <input type="text" name="password"><br>
+    
+      <button >Check</button>
+    </form>
+    
+    <hr><div id="message"></div>
+
+    <script>
+    
+    // add validatePassword function here
+
+        const validatePassword = (password) => {
+            var lower = false;
+            var upper = false;
+
+            if (password.length < 8) {
+                return false;
+            }
+
+            //check for uppercase
+            for (let i = 0; i < password.length; i ++) {
+                if (password[i] == password[i].toLowerCase()) {
+                    lower = true;
+                }
+                
+                else if (password[i] == password[i].toUpperCase()) {
+                    upper = true;                    
+                }
+                
+                else {
+                    return -1;
+                }
+            }
+            if (lower && upper) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    
+    
+        const validateForm = (myForm) => {
+        
+          var firstname = myForm.firstname.value; // get text of firstname field
+          var lastname = myForm.lastname.value;
+          var password = myForm.password.value;  
+            
+          // update 'message' DIV with appropriate wording
+          /*$("#message").html("all fields must be filled out, password must contain at least 8 characters, 1 uppercase character, and 1 lower case character");*/
+
+          if (firstname =='' || lastname == '') {
+              event.preventDefault();
+              $("#message").html("all fields must be filled out.");
+          }         
+          else if (!validatePassword(password)) {
+              event.preventDefault();
+              $("#message").html("Password must contain at least 8 characters, 1 uppercase character, and 1 lower case character");
+          } 
+          // prevent page reload
+        }
+    
+    </script>
+
+</body>
+</html>

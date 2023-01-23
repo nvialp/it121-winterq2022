@@ -1,3 +1,4 @@
+//function to check if a letter is a vowel
 function isVowel(letter) {
   let vowels = ["a", "e", "i", "o", "u"];
   let vowel = false;
