@@ -4,15 +4,80 @@
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
   <link rel="stylesheet" href="../style.css" /> 
 </head>
-    <body>
-        <h1> NICHOLAS VIALPANDO</h1>
-        <h1> IT 121 - HW 4 Pass/Fail  
-        <h1>18 January 2023</h1>
-        
-        <a href=../index.html>Back To Contents</a> 
     
-        <h1>Functions & validation</h1>
+<body>
+    <h1> NICHOLAS VIALPANDO</h1>
+    <h1> IT 121 - HW 4 Pass/Fail  
+    <h1>18 January 2023</h1>
+        
+    <a href=../index.html>Back To Contents</a> 
+    
+    <h1>Robo Dealer</h1>
 
-        <button onclick="deal()">Deal</button>
-    </body>
+    <button onclick="dealHand();">Deal Hand</button>
+
+    <hr><div id="card_hand"></div>
+
+    <script>
+        //let hand = [];
+        let suit = ["Clubs", "Diamonds", "Hearts", "Spades"];
+        let value = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
+                
+        let deck = new Array();
+                
+        for (let i = 0; i < value.length; i++) {
+            for (let j = 0; j < suit.length; j++) {
+                let card = {Value: value[i], Suit: suit[j]};
+                deck.push(card);
+            }
+        }
+        
+        function resetDeck() {
+            let suit = ["Clubs", "Diamonds", "Hearts", "Spades"];
+            let show = '';
+            let value = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
+                
+            let deck = new Array();
+            for (let i = 0; i < value.length; i++) {
+                for (let j = 0; j < suit.length; j++) {
+                    let card = {Value: value[i], Suit: suit[j]};
+                    deck.push(card);
+                }
+            }
+            return deck;
+        }
+        
+        const dealHand = () => {
+            hand = [];
+            
+            if (deck.length < 7) {
+                deck = resetDeck();
+            }
+            
+            else if(deck.length > 5) {
+                for (let i = 0; i < 5; i++) {
+                    let num = Math.floor(Math.random() * deck.length);
+                    hand[i] = deck[num]
+                    deck.splice(num, 1);
+                }
+            }
+                
+            /*else if(deck.length < 5) {
+                for (let i = 0; i < deck.length+1; i++) {
+                    hand[i] = deck.pop();
+                }
+            }*/
+        
+            
+            show = `[${hand[0].Value} of ${hand[0].Suit}] - [${hand[1].Value} of ${hand[1].Suit}] - [${hand[2].Value} of ${hand[2].Suit}] - [${hand[3].Value} of ${hand[3].Suit}] - [${hand[4].Value} of ${hand[4].Suit}]`;
+            
+            //}
+            // update 'card_hand' DIV with appropriate information
+            //$("#card_hand").html(hand[0].Value + hand[0].Suit);
+            $("#card_hand").html(show);
+            return false; // prevent page reload
+        }
+    </script>
+
+</body>
 </html>
