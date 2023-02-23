@@ -4,10 +4,10 @@
         <!--<link rel="stylesheet" href="../style.css" />--> 
     </head>
     <style>
-        .over {
+        .button:hover {
             background-color: orange;
         }
-        .selected {
+        .button:selected {
             background-color: green;
         }
     </style>
@@ -69,6 +69,11 @@
             }
         }
 
+        const gryffindor = $("button:contains('Gryffindor')");
+        const hufflepuff = $("button:contains('Hufflepuff')");
+        const ravenclaw = $("button:contains('Ravenclaw')");
+        const slytherin = $("button:contains('Slytherin')");
+
         let table = document.querySelector("table");
         //const table = $("table");
         let data = Object.keys(characters[0]);
@@ -80,15 +85,35 @@
         reset.on("click", (e) => {
             $("table tr:not(:first)").remove();
             createTable(table, characters);
-            $("table tr:odd").css("background-color", "red");
+            $("table tr:odd").css("background-color", "azure");
+        });
+          
+        gryffindor.on("click", (e) => {
+            $("tr").show();
+            $("tr:contains('Gryffindor'):even").css("background-color", "gold");
+            $("tr:contains('Gryffindor'):odd").css("background-color", "red");
+            $("tr:not(:first)").not("tr:contains('Gryffindor')").hide();
         });
 
-        const gryffindor = $("button:contains('Gryffindor')");
-        
-        gryffindor.on("click", (e) => {
-            $("tr:contains('Gryffindor'):even").css("background-color", "white");
-            $("tr:contains('Gryffindor'):odd").css("background-color", "azure");
-            $("tr:not(:first)").not("tr:contains('Gryffindor')").remove();
+        hufflepuff.on("click", (e) => {
+            $("tr").show();
+            $("tr:contains('Hufflepuff'):even").css("background-color", "gold");
+            $("tr:contains('Hufflepuff'):odd").css("background-color", "grey");
+            $("tr:not(:first)").not("tr:contains('Hufflepuff')").hide();
+        });
+
+        ravenclaw.on("click", (e) => {
+            $("tr").show();
+            $("tr:contains('Ravenclaw'):even").css("background-color", "blue");
+            $("tr:contains('Ravenclaw'):odd").css("background-color", "silver");
+            $("tr:not(:first)").not("tr:contains('Ravenclaw')").hide();
+        });
+
+        slytherin.on("click", (e) => {
+            $("tr").show();
+            $("tr:contains('Slytherin'):even").css("background-color", "green");
+            $("tr:contains('Slytherin'):odd").css("background-color", "silver");
+            $("tr:not(:first)").not("tr:contains('Slytherin')").hide();
         });
 
         //$("tr:not(tr")
