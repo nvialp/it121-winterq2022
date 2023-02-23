@@ -70,12 +70,25 @@
         }
 
         let table = document.querySelector("table");
-        //let table = $("#table");
+        //const table = $("table");
         let data = Object.keys(characters[0]);
+
+        createTable(table, characters)
+        $("tr:odd").css("background-color", "azure");
             
         const reset = $("#reset");
         reset.on("click", (e) => {
+            $("table tr:not(:first)").remove();
             createTable(table, characters);
+            $("table tr:odd").css("background-color", "red");
+        });
+
+        const gryffindor = $("button:contains('Gryffindor')");
+        
+        gryffindor.on("click", (e) => {
+            $("tr:contains('Gryffindor'):even").css("background-color", "white");
+            $("tr:contains('Gryffindor'):odd").css("background-color", "azure");
+            $("tr:not(:first)").not("tr:contains('Gryffindor')").remove();
         });
 
         //$("tr:not(tr")
