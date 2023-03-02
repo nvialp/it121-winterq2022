@@ -13,12 +13,39 @@
 
     <h1>HTTP Requests & Async</h1>
     
-    <form id="form1" action="#" onsubmit="return validateForm(this);">
-      first name: <input type="text" name="firstname"><br>
-      last name: <input type="text" name="lastname"><br>
-      password: <input type="text" name="password"><br>
+    <form id="myform">
+      city: <input type="text" name="city"><br>
     
-      <button >Check</button>
+      <button>Get 5 Day Forecast</button>
     </form>
     
     <hr><div id="message"></div>
+</body>
+</html>
+
+<script>
+$(document).ready(() => {
+    $('form button').on('click', (e) => {
+       //cancel the default form submission
+       e.preventDefault();
+       //gather up all form-field values
+       let formData = $('#myform').serialize();
+       console.log(formData);
+
+       //send the request
+       $.post("http://api.openweathermap.org/data/2.5/forecast?q=CITY,COUNTRY&APPID=API_KEY",formData, (result, status) => {
+          //when the server replies...
+          if (status == 'success') {
+            $('#message').text('POST succeeded');
+          } 
+          else {
+            $('#message').text('POST failed');
+          }
+          $('form button').removeAttr('disabled');
+       });
+
+     //temporarily disable button to prevent double-submit
+     // this happens before post completes
+     $('form button').attr('disabled', 'disabled');
+    });
+});
