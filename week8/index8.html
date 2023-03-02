@@ -29,14 +29,16 @@ $(document).ready(() => {
        //cancel the default form submission
        e.preventDefault();
        //gather up all form-field values
-       let formData = $('#myform').serialize();
-       console.log(formData);
+       let city = $('#myform').serialize();
+       console.log(city);
+       let country = "us";
+       let api = "f408b37b6f1efc1d780f3bda17fa8abc";
 
        //send the request
-       $.post("http://api.openweathermap.org/data/2.5/forecast?q=CITY,COUNTRY&APPID=API_KEY",formData, (result, status) => {
+       $.post("http://api.openweathermap.org/data/2.5/forecast?q=" + city + "," + country + "&APPID=" + api,city, (result, status) => {
           //when the server replies...
           if (status == 'success') {
-            $('#message').text('POST succeeded');
+            $('#message').html(data.main.temp);
           } 
           else {
             $('#message').text('POST failed');
