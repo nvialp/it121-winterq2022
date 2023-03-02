@@ -24,7 +24,7 @@
             <button class="button">Slytherin</button>
         </div>
         
-        <table border='1' id = "table">
+        <table border='1' id="table">
             <tr>
                 <th>name</th>
                 <th>role</th>
@@ -75,7 +75,7 @@
         const slytherin = $("button:contains('Slytherin')");
 
         let table = document.querySelector("table");
-        //const table = $("table");
+        //const table = $(".table");
         let data = Object.keys(characters[0]);
 
         createTable(table, characters)
