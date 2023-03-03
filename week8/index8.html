@@ -9,11 +9,11 @@
     <h1> IT 121 - HW 8 Sunny With A Chance Of Awesome   
     <h1>23 January 2023</h1>
     
-    <a href=../index.html>Back To Contents</a> 
+    <a href="../index.html">Back To Contents</a> 
 
     <h1>HTTP Requests & Async</h1>
     
-    <form>
+    <form id="myForm">
       city: <input type="text" id="city" name="city"><br>
     
       <button>Get 5 Day Forecast</button>
@@ -35,15 +35,10 @@ $(document).ready(() => {
        let api = "f408b37b6f1efc1d780f3bda17fa8abc";
 
        //send the request
-       $.post("https://api.openweathermap.org/data/2.5/forecast?q=" + city + "," + country + "&APPID=" + api, (result, status) => {
+       $.get("https://api.openweathermap.org/data/2.5/forecast?q=" + city + "," + country + "&APPID=" + api, function(data, status)  {
           //when the server replies...
-          if (status == 'success') {
-            $('#message').html(data.main.temp);
-          } 
-          else {
-            $('#message').text('POST failed');
-          }
-          $('form button').removeAttr('disabled');
+          alert("Data: " + data + "\nStatus: " + status);
+           $("#message").html(data.main.temp);
        });
 
      //temporarily disable button to prevent double-submit

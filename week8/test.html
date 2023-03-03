@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+  <link rel="stylesheet" href="../style.css" /> 
+</head>
+
+<body>    
+
+<form id="myform">
+  <input type='text' name='name'>
+  <input type='text' name='age'>
+  <button>Send</button>
+</form>
+<div id='message' />
+
+</body>
+</html>
+
+<script>
+$(document).ready(() => {
+    $('form button').on('click', (e) => {
+       //cancel the default form submission
+       e.preventDefault();
+       //gather up all form-field values
+       let formData = $('#myform').serialize();
+       console.log(formData);
+
+       //send the request
+       $.post(<URL>,formData, (result, status) => {
+          //when the server replies...
+          if (status == “success”) {
+            $('#message).text('POST succeeded');
+          } else {
+            $('#message).text('POST failed');
+          }
+          $('form button').removeAttr('disabled');
+       });
+
+     //temporarily disable button to prevent double-submit
+     // this happens before post completes
+     $('form button').attr('disabled', 'disabled');
+    });
+});

@@ -22,6 +22,11 @@
         //let hand = [];
         let suit = ["Clubs", "Diamonds", "Hearts", "Spades"];
         let value = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
+
+        function card(value, suit) {
+            this.Value = value;
+            this.Suit = suit;
+        }
                 
         let deck = new Array();
                 
@@ -33,11 +38,6 @@
         }
         
         function resetDeck() {
-            let suit = ["Clubs", "Diamonds", "Hearts", "Spades"];
-            let show = '';
-            let value = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
-                
-            let deck = new Array();
             for (let i = 0; i < value.length; i++) {
                 for (let j = 0; j < suit.length; j++) {
                     let card = {Value: value[i], Suit: suit[j]};
