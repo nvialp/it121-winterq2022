@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <label for="city">City:</label>
+    <label for="zip">Zip:</label>
     <input type="text" id="city">
     <input type="button" value="Find" id="findBtn">
     <p id="working" style="display:none">Retreiving the current weather...</p>
@@ -23,40 +23,43 @@
 
 <script>
     $(function() {   
-       $("#findBtn").click(function() {
-          // Hide the results div until the API sends back results
-          $("#results").hide();
-          
-          // Clear any previous error messages
-          $("#error").html("");
-          
-          // Let the user know request was sent
-          $("#working").show();
-       
-          // Get the zip from the form
-           let api = "https://api.openweathermap.org/data/2.5/forecast?q=";
-           let city = $("#city").val();
-           let apiKey = "&APPID=f408b37b6f1efc1d780f3bda17fa8abc"
-           let url = api + city + apiKey;
-           
-    
-          // Send weather API request
-          $.ajax({
-             //url: "http://api.openweathermap.org/data/2.5/weather",
-             url: url,
-          }).done(function(data) {
-             $("#working").hide();
-             $("#results").show();
-             
-             // Display the weather data retrieved from the API         
-             $("#currentTemp").html(data.main.temp);
-    
-             // Add your code here
-    
-          }).fail(function(jqXHR) {
-             $("#working").hide();
-             $("#error").html("Error retrieving the weather.");
-          });
-       });
-    });
+   $("#findBtn").click(function() {
+      // Hide the results div until the API sends back results
+      $("#results").hide();
+      
+      // Clear any previous error messages
+      $("#error").html("");
+      
+      // Let the user know request was sent
+      $("#working").show();
+   
+      // Get the zip from the form
+      let zip = $("#zip").val();
+
+      // Send weather API request
+      $.ajax({
+         //url: "http://api.openweathermap.org/data/2.5/weather",
+         url: "https://api.openweathermap.org/data/2.5/forecast?q=98107&appid=f408b37b6f1efc1d780f3bda17fa8abc",
+         jsonp: "callback",
+          dataType: "jsonp",
+         data: {
+            zip: zip,
+            units: "imperial",
+            appid: "f408b37b6f1efc1d780f3bda17fa8abc"    // Replace with your API key
+         }
+      }).done(function(data) {
+         $("#working").hide();
+         $("#results").show();
+         
+         // Display the weather data retrieved from the API         
+         $("#currentTemp").html(data.main.temp);
+
+         // Add your code here
+
+      }).fail(function(jqXHR) {
+         $("#working").hide();
+         $("#error").html("Error retrieving the weather.");
+      });
+   });
+});
 </script>
