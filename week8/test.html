@@ -1,44 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-  <link rel="stylesheet" href="../style.css" /> 
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 
-<body>    
+<body>
+    <label for="city">City:</label>
+    <input type="text" id="city">
+    <input type="button" value="Find" id="findBtn">
+    <p id="working" style="display:none">Retreiving the current weather...</p>
+    <p id="error"></p>
 
-<form id="myform">
-  <input type='text' name='name'>
-  <input type='text' name='age'>
-  <button>Send</button>
-</form>
-<div id='message' />
-
+    <div id="results" style="display:none">
+       <p>
+          Current temperature: <strong id="currentTemp">
+          </strong> &deg;F
+       </p>
+    </div>
 </body>
 </html>
 
+
 <script>
-$(document).ready(() => {
-    $('form button').on('click', (e) => {
-       //cancel the default form submission
-       e.preventDefault();
-       //gather up all form-field values
-       let formData = $('#myform').serialize();
-       console.log(formData);
-
-       //send the request
-       $.post(<URL>,formData, (result, status) => {
-          //when the server replies...
-          if (status == “success”) {
-            $('#message).text('POST succeeded');
-          } else {
-            $('#message).text('POST failed');
-          }
-          $('form button').removeAttr('disabled');
+    $(function() {   
+       $("#findBtn").click(function() {
+          // Hide the results div until the API sends back results
+          $("#results").hide();
+          
+          // Clear any previous error messages
+          $("#error").html("");
+          
+          // Let the user know request was sent
+          $("#working").show();
+       
+          // Get the zip from the form
+           let api = "https://api.openweathermap.org/data/2.5/forecast?q=";
+           let city = $("#city").val();
+           let apiKey = "&APPID=f408b37b6f1efc1d780f3bda17fa8abc"
+           let url = api + city + apiKey;
+           
+    
+          // Send weather API request
+          $.ajax({
+             //url: "http://api.openweathermap.org/data/2.5/weather",
+             url: url,
+          }).done(function(data) {
+             $("#working").hide();
+             $("#results").show();
+             
+             // Display the weather data retrieved from the API         
+             $("#currentTemp").html(data.main.temp);
+    
+             // Add your code here
+    
+          }).fail(function(jqXHR) {
+             $("#working").hide();
+             $("#error").html("Error retrieving the weather.");
+          });
        });
-
-     //temporarily disable button to prevent double-submit
-     // this happens before post completes
-     $('form button').attr('disabled', 'disabled');
     });
-});
+</script>

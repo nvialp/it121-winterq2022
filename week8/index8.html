@@ -13,11 +13,11 @@
 
     <h1>HTTP Requests & Async</h1>
     
-    <p>
+    <form>
       city: <input type="text" id="city" name="city"><br>
     
       <button>Get 5 Day Forecast</button>
-    </p>
+    </form>
     
     <hr><div id="message"></div>
 </body>
@@ -29,22 +29,26 @@ $(document).ready(() => {
        //cancel the default form submission
        e.preventDefault();
        //gather up all form-field values
-       let api = "https://api.openweathermap.org/data/2.5/forecast?q="
-       let city = $("#city").val();
+       let api = "https://api.openweathermap.org/data/2.5/forecast?q=";
+       let city = "seattle";
            console.log(city);
        let country = ",us";
        let apiKey = "&APPID=f408b37b6f1efc1d780f3bda17fa8abc";
        let url = api + city + country + apiKey;
 
        //send the request
-        $.get(url, function(data) {
-            alert("Data: " + data);
+        $.getJSON(url, (data, status)  => {
+            if (status == "success") {
+                $("#message").html(data.main.temp);
+            }
+            else {
+                $("#message").text("error");
+            }
         });  
         //when the server replies...
-           //$("#message").html(data.main.temp);
-       });
-
-     //temporarily disable button to prevent double-submit
+       //temporarily disable button to prevent double-submit
+        
      // this happens before post completes
      $('form button').attr('disabled', 'disabled');
+});
 });
