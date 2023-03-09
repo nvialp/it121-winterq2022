@@ -2,23 +2,143 @@
 <html>
 <head>
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-  <link rel="stylesheet" href="../style.css" /> 
+  <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-    <h1> NICHOLAS VIALPANDO</h1>
-    <h1> IT 121 - HW 9 Draw Me a Picture   
-    <h1>06 March 2023</h1>
+    <div>
+        <h1> NICHOLAS VIALPANDO</h1>
+        <h1> IT 121 - HW 9 Draw Me a Picture</h1>
+        <h1>06 March 2023</h1>
     
-    <a href="../index.html">Back To Contents</a> 
+        <a href="../index.html">Back To Contents</a>
 
-    <h1>Drawing</h1>
-    
-    <form>
-      city: <input type="text" id="city" name="city"><br>
-    
-      <button>Get 5 Day Forecast</button>
-    </form>
-    
-    <hr><div id="message"></div>
+        <h1>Drawing</h1>
+    </div>
+    <div>
+        <canvas id="signal" width="400" height="400" style="background-color:black"></canvas>
+    </div>
 </body>
 </html>
+
+<script>
+    let canvas = document.getElementById('signal');
+    let context = canvas.getContext('2d');
+    let radius = canvas.height / 2;
+    context.translate(radius, radius);
+    radius = radius *0.9;
+    
+    setInterval(drawClock, 1000);    
+    
+    function drawClock() {
+        
+        drawFace(context, radius);
+        drawTime(context, radius);
+        drawNumbers(context, radius);
+        drawEyes(context);
+    }
+
+    function drawFace(context, radius) {
+        let gradient;
+
+        context.beginPath();
+        context.arc(0, 0, radius, 0, 2*Math.PI);
+        context.fillStyle = "grey";
+        context.fill();
+
+        gradient = context.createRadialGradient(0,0,radius*.95,0,0,radius*1.05);
+        gradient.addColorStop(0, "black");
+        gradient.addColorStop(.5, "white");
+        gradient.addColorStop(1, "silver");
+        context.strokeStyle = gradient;
+        context.lineWidth = radius*.1;
+        context.stroke();               
+    }
+
+    function drawNumbers(context, radius) {
+        let angle;
+        let number;
+
+        context.font = radius * .15+"px impact";
+        context.textBaseline = "middle";
+        context.textAlign = "center";
+        context.fillStyle = "red";
+
+        for(number = 1; number < 13; number++) {
+            angle = number * Math.PI/6;
+            context.rotate(angle);
+            context.translate(0, -radius * .85);
+            context.rotate(-angle);
+            context.fillText(number.toString(), 0, 0);
+            context.rotate(angle);
+            context.translate(0, radius * .85);
+            context.rotate(-angle);
+        }
+    }
+    
+    function drawTime(context, radius) {
+        let now = new Date();
+        let hour = now.getHours();
+        let minute = now.getMinutes();
+        let second = now.getSeconds();
+
+        //hour
+        hour = hour%12;
+        hour = (hour * Math.PI/6)+(minute * Math.PI/(6 * 60)) + (second * Math.PI/(30 * 60));
+        drawHand(context, hour, radius * .5, radius * .1);
+
+        //minute
+        minute = (minute * Math.PI/30) + (second * Math.PI/(30*60));
+        drawHand(context, minute, radius * .8, radius * .07);
+
+        //second
+        second = (second * Math.PI/30);
+        drawHand(context, second, radius * .9, radius * .02);
+        
+        context.beginPath();
+        //context.rect(-15, -15, 30, 30);
+        context.moveTo(0, -30);
+        context.lineTo(-30, 30);
+        context.lineTo(30, 30);
+        //context.closePath();
+        context.fillStyle = "red";
+        context.fill();
+
+        context.fillRect(-60, 45, 10, 50);
+        context.fillRect(-30, 45, 10, 50);
+        context.fillRect(0, 45, 10, 50);
+        context.fillRect(30, 45, 10, 50);
+        context.fillRect(60, 45, 10, 50);
+        context.fillRect(-70, 70-2.5, 150, 5);
+    }
+
+    function drawHand(context, pos, length, width) {
+        context.beginPath();
+        context.lineWidth = width;
+        context.lineCap = "round";
+        context.moveTo(0, 0);
+        context.rotate(pos);
+        context.lineTo(0, -length);
+        context.stroke();
+        context.rotate(-pos);
+    }
+
+    //function to animate eyes
+    function drawEyes(context) {
+        context.save();
+
+        if(i > 70) {
+            i=40;
+        }
+        if(i > 40) {
+            context.beginPath();
+            context.arc(-70, -60, i - 30, 0, 2 * Math.PI);
+            context.arc(70, -60, i - 30, 0, 2 * Math.PI);
+            context.fillStyle = "red";
+            context.fill();
+        }
+        i++;
+        context.restore();
+        setTimeout(animate, 10);
+    }
+    let i = 40;    
+</script>
