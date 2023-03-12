@@ -1,0 +1,8 @@
+{
+    "name": "IT 121 - HW 10 Node.js Setup",
+   "author": "Nicholas Vialpando",
+    "github": "https://github.com/nvialp/it121-winterq2022",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
