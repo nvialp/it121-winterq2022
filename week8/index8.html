@@ -19,14 +19,32 @@
       <button>Get 5 Day Forecast</button>
     </form>
 
-    <div id="5day">
-        Date: <div id="date"></div>
-        Temperature min: <div id="min"></div>
-        Temperature max: <div id="max"></div>
-        Humidity: <div id="humidity"></div>
-        Description: <div id="description"></div>
-        Weather icon: <div id="icon"></div>
-    </div>        
+    <h1 id="selCity"></h1>
+        
+    <div>
+        <img id=img1>
+        <h3 id="day1"></h3>
+    </div>
+
+    <div>
+        <img id=img2>
+        <h3 id="day2"></h3>
+    </div>
+
+    <div>
+        <img id=img3>
+        <h3 id="day3"></h3>
+    </div>
+
+    <div>
+        <img id=img4>
+        <h3 id="day4"></h3>
+    </div>
+
+    <div>
+        <img id=img5>
+        <h3 id="day5"></h3>
+    </div>
         
 </body>
 </html>
@@ -53,21 +71,27 @@ $(document).ready(() => {
        //send the request
         $.getJSON(url, function(data, status) {
             if (status == "success") {
+                $("#selCity").text(city);
+                
                 for (let i = 0; i < 6; i++) {
                     let forecastDate = new Date(data.list[i].dt * 1000);
                     let tempL = kToF(data.list[i].main.temp_min);
-                    //console.log("low: " + tempL)
+                    console.log("low: " + tempL)
                     let tempH = kToF(data.list[i].main.temp_max);
-                    //console.log("high: " + tempH)
-                    let description = data.list[i].weather[i].description;
+                    console.log("high: " + tempH)
+                    let hum = data.list[i].main.humidity;
+                    let description = data.list[i].weather[0].description;
                     console.log(description)
+                    let icon = data.list[i].weather[0].icon;              
                     
-                    $("#date").text(forecastDate);
-                    $("#min").text(tempL);
-                    $("#max").text(tempH);
-                    $("#humidity").text(data.list[i].main.humidity);
-                    $("#description").text(description);
-                    $("#icon").text(data.list[i].weather[i].icon);
+                    let date = $("<p></p>").text(`FORECAST DATE: ${forecastDate}`);
+                    let low = $("<p></p>").text(`LOW TEMPERATURE: ${tempL} degrees F`);
+                    let hi = $("<p></p>").text(`HIGH TEMPERATURE: ${tempH} degrees F`);
+                    let humidity = $("<p></p>").text(`HUMIDITY: ${hum} percent`);
+                    let desc = $("<p></p>").text(`DESCRIPTION: ${description}`);
+                    $("#img" + (i+1)).attr("src", "https://openweathermap.org/img/wn/" + icon +".png");
+                    $("#day" + (i+1)).append(date, low, hi, humidity, desc).after("<br>");
+                    
                 }
             }
                 
@@ -80,5 +104,6 @@ $(document).ready(() => {
         
      // this happens before post completes
      $('form button').attr('disabled', 'disabled');
+     $('form button').removeAttr('disabled');
 });
 });
