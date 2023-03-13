@@ -18,8 +18,16 @@
     
       <button>Get 5 Day Forecast</button>
     </form>
-    
-    <hr><div id="message"></div>
+
+    <div id="5day">
+        Date: <div id="date"></div>
+        Temperature min: <div id="min"></div>
+        Temperature max: <div id="max"></div>
+        Humidity: <div id="humidity"></div>
+        Description: <div id="description"></div>
+        Weather icon: <div id="icon"></div>
+    </div>        
+        
 </body>
 </html>
 
@@ -30,17 +38,39 @@ $(document).ready(() => {
        e.preventDefault();
        //gather up all form-field values
        let api = "https://api.openweathermap.org/data/2.5/forecast?q=";
-       let city = "seattle";
-           console.log(city);
+       let city = $("#city").val();
+       //console.log(city);
        let country = ",us";
        let apiKey = "&APPID=f408b37b6f1efc1d780f3bda17fa8abc";
        let url = api + city + country + apiKey;
+       console.log(url);
 
+        const kToF = (k) => {
+            let f = (((Number(k) - 273.15) * 9 ) / 5) + 32;
+            return f.toFixed(2);
+        }
+        
        //send the request
-        $.getJSON(url, (data, status)  => {
+        $.getJSON(url, function(data, status) {
             if (status == "success") {
-                $("#message").html(data.main.temp);
+                for (let i = 0; i < 6; i++) {
+                    let forecastDate = new Date(data.list[i].dt * 1000);
+                    let tempL = kToF(data.list[i].main.temp_min);
+                    //console.log("low: " + tempL)
+                    let tempH = kToF(data.list[i].main.temp_max);
+                    //console.log("high: " + tempH)
+                    let description = data.list[i].weather[i].description;
+                    console.log(description)
+                    
+                    $("#date").text(forecastDate);
+                    $("#min").text(tempL);
+                    $("#max").text(tempH);
+                    $("#humidity").text(data.list[i].main.humidity);
+                    $("#description").text(description);
+                    $("#icon").text(data.list[i].weather[i].icon);
+                }
             }
+                
             else {
                 $("#message").text("error");
             }
