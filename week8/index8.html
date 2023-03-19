@@ -56,13 +56,17 @@ $(document).ready(() => {
        //cancel the default form submission
        e.preventDefault();
        //gather up all form-field values
-       let api = "https://api.openweathermap.org/data/2.5/forecast?q=";
+       let api = "https://api.openweathermap.org/data/2.5/forecast/daily?q=";
        let city = $("#city").val();
        //console.log(city);
        let country = ",us";
-       let apiKey = "&APPID=f408b37b6f1efc1d780f3bda17fa8abc";
-       let url = api + city + country + apiKey;
+       let count = "&cnt=5"
+       let apiKey = "&APPID=d09708f81ff13711278d283901a9ce34";
+       let url = api + city + country + count + apiKey;
        console.log(url);
+
+       $("img").empty();
+        $("h3").empty();
 
         const kToF = (k) => {
             let f = (((Number(k) - 273.15) * 9 ) / 5) + 32;
@@ -74,25 +78,26 @@ $(document).ready(() => {
             if (status == "success") {
                 $("#selCity").text(city);
                 
-                for (let i = 0; i < 6; i++) {
+                for (let i = 0; i < 6; ++i) {
                     let forecastDate = new Date(data.list[i].dt * 1000);
-                    let tempL = kToF(data.list[i].main.temp_min);
+                    let adjDate = forecastDate.toDateString();
+                    let tempL = kToF(data.list[i].temp.min);
                     console.log("low: " + tempL)
-                    let tempH = kToF(data.list[i].main.temp_max);
+                    let tempH = kToF(data.list[i].temp.max);
                     console.log("high: " + tempH)
-                    let hum = data.list[i].main.humidity;
+                    let hum = data.list[i].humidity;
                     let description = data.list[i].weather[0].description;
                     console.log(description)
-                    let icon = data.list[i].weather[0].icon;              
+                    let icon = data.list[i].weather[0].icon;
                     
-                    let date = $("<p></p>").text(`FORECAST DATE: ${forecastDate}`);
+                    $("div").css("border", "2px solid white");
+                    let date = $("<p></p>").text(`FORECAST DATE: ${adjDate}`);
                     let low = $("<p></p>").text(`LOW TEMPERATURE: ${tempL} degrees F`);
                     let hi = $("<p></p>").text(`HIGH TEMPERATURE: ${tempH} degrees F`);
                     let humidity = $("<p></p>").text(`HUMIDITY: ${hum} percent`);
                     let desc = $("<p></p>").text(`DESCRIPTION: ${description}`);
                     $("#img" + (i+1)).attr("src", "https://openweathermap.org/img/wn/" + icon +".png");
-                    $("#day" + (i+1)).append(date, low, hi, humidity, desc).after("<br>");
-                    
+                    $("#day" + (i+1)).append(date, low, hi, humidity, desc).after("<br>");                    
                 }
             }
                 
